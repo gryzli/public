@@ -1,5 +1,6 @@
 /* Advanced Linux Sounds Architecture support for EsounD
    7-19-98: Nick Lopez( kimo_sabe@usa.net ) - it starts!
+   4-28-11: Sergey Maslyaev - was changed for QNX
 */
 #include "esd.h"
 
