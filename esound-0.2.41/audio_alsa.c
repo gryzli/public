@@ -69,7 +69,7 @@ int esd_audio_open()
     static int frag_size = 4*1024;
 
 #ifdef ALSA_5_API
-    static int frag_count = 0;
+    static int frag_count = 1;//0
 #else
     static int frag_count = 2;
 #endif
@@ -202,7 +202,8 @@ int esd_audio_open()
     }
 
     memset(&params, 0, sizeof(params));
-    params.buf.block.frag_size = frag_size;
+    /*params.buf.block.frag_size = frag_size;*/
+    params.buf.block.frag_size = alsa_pinfo.max_fragment_size;
     params.buf.block.frags_max = frag_count;
     params.buf.block.frags_min = 1;
     params.channel = alsa_channel;
@@ -212,10 +213,10 @@ int esd_audio_open()
 
     memset(&alsa_format, 0, sizeof(alsa_format));
 #endif
-
     /* set the sound driver audio format for playback */
     alsa_format.format = ( (esd_audio_format & ESD_MASK_BITS) == ESD_BITS16 )  
-      ? /* 16 bit */ SND_PCM_SFMT_S16 : /* 8 bit */ SND_PCM_SFMT_U8;
+
+      ? /* 16 bit SND_PCM_SFMT_S16_LE */ SND_PCM_SFMT_S16 : /* 8 bit */ SND_PCM_SFMT_U8;
     alsa_format.rate = esd_audio_rate;
 
 #ifdef ALSA_5_API
